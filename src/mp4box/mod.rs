@@ -62,6 +62,7 @@ use std::io::{Read, Seek, SeekFrom, Write};
 
 use crate::*;
 
+pub mod av01;
 pub(crate) mod avc1;
 pub(crate) mod co64;
 pub(crate) mod ctts;
@@ -107,6 +108,7 @@ pub(crate) mod vp09;
 pub(crate) mod vpcc;
 
 pub use avc1::Avc1Box;
+pub use av01::Av01Box;
 pub use co64::Co64Box;
 pub use ctts::CttsBox;
 pub use data::DataBox;
@@ -222,6 +224,8 @@ boxtype! {
     DrefBox => 0x64726566,
     UrlBox  => 0x75726C20,
     SmhdBox => 0x736d6864,
+    Av01Box => 0x61763031,
+    Av1CBox => 0x61763143,
     Avc1Box => 0x61766331,
     AvcCBox => 0x61766343,
     Hev1Box => 0x68657631,
@@ -234,7 +238,7 @@ boxtype! {
     DataBox => 0x64617461,
     IlstBox => 0x696c7374,
     NameBox => 0xa96e616d,
-    DayBox => 0xa9646179,
+    DayBox  => 0xa9646179,
     CovrBox => 0x636f7672,
     DescBox => 0x64657363,
     WideBox => 0x77696465,

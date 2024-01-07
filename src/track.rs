@@ -30,6 +30,18 @@ impl From<MediaConfig> for TrackConfig {
             MediaConfig::AacConfig(aac_conf) => Self::from(aac_conf),
             MediaConfig::TtxtConfig(ttxt_conf) => Self::from(ttxt_conf),
             MediaConfig::Vp9Config(vp9_config) => Self::from(vp9_config),
+            MediaConfig::Av1Config(av1_config) => Self::from(av1_config),
+        }
+    }
+}
+
+impl From<Av1Config> for TrackConfig{
+    fn from(av1_config: Av1Config) -> Self {
+        Self{
+            track_type: TrackType::Video,
+            timescale: 1000,
+            language: String::from("und"),
+            media_conf: MediaConfig::Av1Config(av1_config),
         }
     }
 }
@@ -649,6 +661,15 @@ impl Mp4TrackWriter {
         trak.mdia.hdlr.handler_type = config.track_type.into();
         trak.mdia.minf.stbl.co64 = Some(Co64Box::default());
         match config.media_conf {
+            MediaConfig::Av1Config(ref av1_config) => {
+                trak.tkhd.set_width(av1_config.width);
+                trak.tkhd.set_height(av1_config.height);
+                
+                let vmhd = VmhdBox::default();
+                trak.mdia.minf.vmhd = Some(vmhd);
+
+                trak.mdia.minf.stbl.stsd.av01 = Some(Av01Box::new(av1_config));
+            }
             MediaConfig::AvcConfig(ref avc_config) => {
                 trak.tkhd.set_width(avc_config.width);
                 trak.tkhd.set_height(avc_config.height);

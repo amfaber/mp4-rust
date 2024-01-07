@@ -565,6 +565,13 @@ impl fmt::Display for ChannelConfig {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
+pub struct Av1Config {
+    pub width: u16,
+    pub height: u16,
+    pub sequence_header: Vec<u8>,
+}
+
+#[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct AvcConfig {
     pub width: u16,
     pub height: u16,
@@ -613,6 +620,7 @@ pub enum MediaConfig {
     Vp9Config(Vp9Config),
     AacConfig(AacConfig),
     TtxtConfig(TtxtConfig),
+    Av1Config(Av1Config),
 }
 
 #[derive(Debug)]
